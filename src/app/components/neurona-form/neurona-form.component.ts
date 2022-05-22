@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Layer, Neuron, NeuronInput} from "../../models";
+import {Layer, LayerInput, Neuron, NeuronInput, Red} from "../../models";
 
 @Component({
   selector: 'app-neurona-form',
@@ -15,13 +15,21 @@ export class NeuronaFormComponent implements OnInit {
     outputs: []
   }
   layer?: Layer
+  red?: Red
+  layerInputs: LayerInput[] = []
 
   constructor(private builder: FormBuilder) {
     this.form = this.builder.group({
       inputs: [null, Validators.required],
       type: [''],
-      triggerFunction: ['']
+      triggerFunction: [''],
+      hiddenLayers: [0],
+      layers: [[]]
     })
+
+    this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
+    this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
+    this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
   }
 
   ngOnInit(): void {
@@ -64,4 +72,34 @@ export class NeuronaFormComponent implements OnInit {
       console.log(this.layer)
     }
   }
+
+  initMulticapa() {
+    if (this.form.value.type == "Multicapa") {
+      this.red = new Red(
+        this.neuronInput.inputs[0].length,
+        this.neuronInput.outputs[0].length,
+        this.layerInputs,
+        Number(this.form.value.hiddenLayers)
+      )
+
+      console.log(this.red)
+    }
+  }
+
+  saveNeuron() {
+    let data = ''
+    if (this.form.value.type == "Unicapa") {
+      data = JSON.stringify(this.layer)
+    } else {
+      data = JSON.stringify(this.red)
+    }
+
+    const uri = 'data:application/json;charset=UTF-8,' + encodeURIComponent(data);
+    const link = document.createElement('a')
+    link.href = uri
+    link.download = "neurona.json"
+
+    link.click()
+  }
+
 }

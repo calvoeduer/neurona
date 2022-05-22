@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {MatSelectModule} from "@angular/material/select";
 
 
@@ -28,7 +28,8 @@ import {MatSelectModule} from "@angular/material/select";
         ReactiveFormsModule,
         MaterialFileInputModule,
         BrowserAnimationsModule,
-        MatSelectModule
+        MatSelectModule,
+        FormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]
