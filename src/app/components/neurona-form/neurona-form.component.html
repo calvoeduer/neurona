@@ -41,10 +41,11 @@
   <ng-container *ngIf="form.value.type === 'Unicapa'">
     <h3>Pesos y umbrales</h3>
     <p *ngFor="let neuron of layer?.neurons; index as i;">
-      Pesos neurona {{i + 1}}: {{neuron.weights.join(", ")}}
-      <span>
-      Umbral neurona {{i + 1}}: {{neuron.sill}}
-    </span>
+      Pesos neurona {{i + 1}}:
+    <mat-chip-list>
+      <mat-chip *ngFor="let weight of neuron.weights">{{weight | number}}</mat-chip>
+      <mat-chip> Umbral neurona {{i + 1}}: {{neuron.sill | number}}</mat-chip>
+    </mat-chip-list>
     </p>
 
     <mat-divider class="form__divider"></mat-divider>
@@ -144,14 +145,19 @@
 
     <div *ngFor="let clayer of red?.layers; index as i">
       <span>Capa {{i + 1}}</span>
+      <div></div>
       <span *ngFor="let neuron of clayer?.neurons; index as id">
-        Pesos neurona {{id + 1}}: {{neuron.weights.join(', ')}}
-        <span>
-          Umbral neurona {{id + 1}}: {{neuron.sill}}
-        </span>
+        Pesos neurona {{id + 1}}:
+        <mat-chip-list>
+        <mat-chip color="primary" *ngFor="let weight of neuron.weights">{{weight | number}}</mat-chip>
+          <mat-chip color="warn">Umbral neurona {{id + 1}}: {{neuron.sill | number}}</mat-chip>
+      </mat-chip-list>
+
       </span>
     </div>
+
   </ng-container>
+
 
   <ng-container *ngIf="layer !== undefined || red !== undefined">
     <button mat-raised-button (click)="saveNeuron()">Descargar neurona</button>

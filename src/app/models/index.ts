@@ -13,6 +13,8 @@ export class Neuron {
   public weights: number[] = []
   public sill: number = 0
 
+
+
   constructor(inputs: number) {
     this.inputs = inputs
 
@@ -67,3 +69,4 @@ export class Red {
     }
   }
 }
+

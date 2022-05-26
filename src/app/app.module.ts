@@ -11,6 +11,8 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatInputModule } from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {MatSelectModule} from "@angular/material/select";
+import {MatTableModule} from "@angular/material/table";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 
@@ -19,18 +21,21 @@ import {MatSelectModule} from "@angular/material/select";
     AppComponent,
     NeuronaFormComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MaterialFileInputModule,
-        BrowserAnimationsModule,
-        MatSelectModule,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MaterialFileInputModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    FormsModule,
+    MatTableModule,
+    MatChipsModule,
+
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
