@@ -28,7 +28,7 @@ export class NeuronaFormComponent implements OnInit {
       trainingAlgorithm:[''],
       hiddenLayers: [0],
       layers: [[]],
-      maxIterations:[0],
+      maxIterations:[1, [Validators.required]],
       trainingRate:[0, [Validators.required, Validators.min(0), Validators.max(1)]],
       maxError:[0, [Validators.required, Validators.min(0),Validators.max(1)]]
     })

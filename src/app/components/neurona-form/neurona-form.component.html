@@ -14,12 +14,29 @@
   <p>Entradas: {{neuronInput.inputs[0]?.length}}</p>
   <p>Salidas: {{neuronInput.outputs[0]?.length}}</p>
 </section>
-
 <section>
-  <h2>Configuración de la red</h2>
-
   <mat-divider class="form__divider"></mat-divider>
+  <h3>Parametros de entrenamiento</h3>
+  <form [formGroup]="form" class="form">
+    <mat-form-field>
+      <mat-label>N° iteraciones</mat-label>
+      <input matInput type="number" formControlName="maxIterations"/>
+    </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Rata de aprendizaje</mat-label>
+      <input matInput type="number" [max]="1" [min]="0" formControlName="trainingRate"/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Error maximo</mat-label>
+      <input matInput type="number" [max]="1" [min]="0" formControlName="maxError"/>
+    </mat-form-field>
+  </form>
+</section>
+<section>
+  <mat-divider class="form__divider"></mat-divider>
+  <h2>Configuración de la red</h2>
   <form [formGroup]="form" class="form">
     <mat-form-field>
       <mat-label>Tipo de red</mat-label>
@@ -81,7 +98,7 @@
           <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa'" [value]="'Escalon'">
             Escalón
           </mat-option>
-          <mat-option *ngIf="form.value.subType === 'BackUnicapa'"  [value]="'Sigmoide'">
+          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'Sigmoide'">
             Sigmoide
           </mat-option>
           <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'TagenteH'">
@@ -108,7 +125,7 @@
       </mat-form-field>
     </form>
   </ng-container>
-<!--MC-->
+  <!--MC-->
   <ng-container *ngIf="form.value.type === 'Multicapa'">
     <form [formGroup]="form" class="form">
       <mat-form-field>
@@ -185,7 +202,7 @@
     <h2>Algoritmo de entrenamiento</h2>
     <form [formGroup]="form" class="form">
       <mat-form-field>
-        <mat-label>Algoritmo: </mat-label>
+        <mat-label>Algoritmo:</mat-label>
         <mat-select formControlName="trainingAlgorithm">
           <mat-option *ngIf="form.value.subType === 'PerceptronMulticapa' || form.value.subType == 'Madaline'"
                       [value]="'ReglaDelta'">
