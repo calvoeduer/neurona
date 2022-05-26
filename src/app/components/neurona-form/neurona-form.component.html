@@ -32,6 +32,29 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>Arquitectura de red</mat-label>
+      <mat-select formControlName="subType">
+        <mat-option *ngIf="form.value.type === 'Unicapa'" [value]="'PerceptronUnicapa'">
+          Perceptron unicapa
+        </mat-option>
+        <mat-option *ngIf="form.value.type === 'Multicapa'" [value]="'PerceptronMulticapa'">
+          Perceptron multicapa
+        </mat-option>
+        <mat-option *ngIf="form.value.type === 'Unicapa'" [value]="'Adaline'">
+          Adaline
+        </mat-option>
+        <mat-option *ngIf="form.value.type === 'Multicapa'" [value]="'Madaline'">
+          Madaline
+        </mat-option>
+        <mat-option *ngIf="form.value.type === 'Unicapa'" [value]="'BackUnicapa'">
+          Back propagation unicapa
+        </mat-option>
+        <mat-option *ngIf="form.value.type === 'Multicapa'" [value]="'BackMulticapa'">
+          Back propagation multicapa
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <button mat-raised-button (click)="initNeuron()" *ngIf="form.value.type === 'Unicapa'">Iniciar neurona</button>
   </form>
@@ -42,10 +65,10 @@
     <h3>Pesos y umbrales</h3>
     <p *ngFor="let neuron of layer?.neurons; index as i;">
       Pesos neurona {{i + 1}}:
-    <mat-chip-list>
-      <mat-chip *ngFor="let weight of neuron.weights">{{weight | number}}</mat-chip>
-      <mat-chip> Umbral neurona {{i + 1}}: {{neuron.sill | number}}</mat-chip>
-    </mat-chip-list>
+      <mat-chip-list>
+        <mat-chip *ngFor="let weight of neuron.weights">{{weight | number}}</mat-chip>
+        <mat-chip> Umbral neurona {{i + 1}}: {{neuron.sill | number}}</mat-chip>
+      </mat-chip-list>
     </p>
 
     <mat-divider class="form__divider"></mat-divider>
@@ -55,23 +78,37 @@
       <mat-form-field>
         <mat-label>Función de activacion</mat-label>
         <mat-select formControlName="triggerFunction">
-          <mat-option [value]="'Escalon'">
+          <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa'" [value]="'Escalon'">
             Escalón
           </mat-option>
-          <mat-option [value]="'Sigmoide'">
+          <mat-option *ngIf="form.value.subType === 'BackUnicapa'"  [value]="'Sigmoide'">
             Sigmoide
           </mat-option>
-          <mat-option [value]="'TagenteH'">
-            TagenteH
+          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'TagenteH'">
+            Tagente H
           </mat-option>
-          <mat-option [value]="'Lineal'">
+          <mat-option *ngIf="form.value.subType === 'Adaline'" [value]="'Lineal'">
             Lineal
           </mat-option>
         </mat-select>
       </mat-form-field>
     </form>
+    <h2>Algoritmo de entrenamiento</h2>
+    <form [formGroup]="form" class="form">
+      <mat-form-field>
+        <mat-label>Algoritmo entrenamiento:</mat-label>
+        <mat-select formControlName="trainingAlgorithm">
+          <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa' || form.value.subType =='Adaline'">
+            Regla delta
+          </mat-option>
+          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'PropagacionInversa'">
+            Propagacion inversa
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
   </ng-container>
-
+<!--MC-->
   <ng-container *ngIf="form.value.type === 'Multicapa'">
     <form [formGroup]="form" class="form">
       <mat-form-field>
@@ -123,18 +160,41 @@
       <mat-form-field>
         <mat-label>Función de activacion</mat-label>
         <mat-select formControlName="triggerFunction">
-          <mat-option [value]="'Escalon'">
-            Escalón
-          </mat-option>
           <mat-option [value]="'Sigmoide'">
             Sigmoide
           </mat-option>
           <mat-option [value]="'TagenteH'">
-            TagenteH
+            Tagente H
           </mat-option>
           <mat-option [value]="'Lineal'">
             Lineal
           </mat-option>
+          <mat-option [value]="'Gausiana'">
+            Gausiana
+          </mat-option>
+          <mat-option [value]="'Seno'">
+            Seno
+          </mat-option>
+          <mat-option [value]="'Coseno'">
+            Coseno
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <h2>Algoritmo de entrenamiento</h2>
+    <form [formGroup]="form" class="form">
+      <mat-form-field>
+        <mat-label>Algoritmo: </mat-label>
+        <mat-select formControlName="trainingAlgorithm">
+          <mat-option *ngIf="form.value.subType === 'PerceptronMulticapa' || form.value.subType == 'Madaline'"
+                      [value]="'ReglaDelta'">
+            Regla delta
+          </mat-option>
+          <mat-option *ngIf="form.value.subType === 'BackMulticapa'" [value]="'PropagacionInversa'">
+            BackPropagation
+          </mat-option>
+
         </mat-select>
       </mat-form-field>
     </form>

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Layer, LayerInput, Neuron, NeuronInput, Red} from "../../models";
+import {min} from "rxjs";
 
 @Component({
   selector: 'app-neurona-form',
@@ -22,9 +23,14 @@ export class NeuronaFormComponent implements OnInit {
     this.form = this.builder.group({
       inputs: [null, Validators.required],
       type: [''],
+      subType:[''],
       triggerFunction: [''],
+      trainingAlgorithm:[''],
       hiddenLayers: [0],
-      layers: [[]]
+      layers: [[]],
+      maxIterations:[0],
+      trainingRate:[0, [Validators.required, Validators.min(0), Validators.max(1)]],
+      maxError:[0, [Validators.required, Validators.min(0),Validators.max(1)]]
     })
 
     this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
