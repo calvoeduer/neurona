@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatCardModule} from "@angular/material/card";
 
 
 
@@ -21,21 +22,22 @@ import {MatChipsModule} from "@angular/material/chips";
     AppComponent,
     NeuronaFormComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MaterialFileInputModule,
-    BrowserAnimationsModule,
-    MatSelectModule,
-    FormsModule,
-    MatTableModule,
-    MatChipsModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MaterialFileInputModule,
+        BrowserAnimationsModule,
+        MatSelectModule,
+        FormsModule,
+        MatTableModule,
+        MatChipsModule,
+        MatCardModule,
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
