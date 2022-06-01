@@ -189,9 +189,6 @@
           <mat-option [value]="'TagenteH'">
             Tagente H
           </mat-option>
-          <mat-option [value]="'Lineal'">
-            Lineal
-          </mat-option>
           <mat-option [value]="'Gausiana'">
             Gausiana
           </mat-option>
@@ -225,7 +222,8 @@
     <button mat-raised-button (click)="initMulticapa()">Iniciar</button>
 
     <mat-divider class="form__divider"></mat-divider>
-    <mat-card>
+    <!--
+        <mat-card>
       <mat-card-title>Pesos y umbrales</mat-card-title>
       <div *ngFor="let clayer of red?.layers; index as i">
         <span>Capa {{i + 1}}</span>
@@ -239,8 +237,7 @@
       </span>
       </div>
     </mat-card>
-
-
+    -->
 
   </ng-container>
 
