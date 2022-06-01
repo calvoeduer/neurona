@@ -73,7 +73,11 @@ export class NeuronaFormComponent implements OnInit {
 
   initNeuron() {
     if (this.form.value.type == "Unicapa") {
-      this.layer = new Layer(this.neuronInput.inputs[0].length, this.neuronInput.outputs[0].length)
+      this.layer = new Layer(
+        this.neuronInput.inputs[0].length,
+        this.neuronInput.outputs[0].length,
+        this.form.value.triggerFunction
+      )
 
       console.log(this.layer)
     }
@@ -85,7 +89,7 @@ export class NeuronaFormComponent implements OnInit {
         this.neuronInput.inputs[0].length,
         this.neuronInput.outputs[0].length,
         this.layerInputs,
-        Number(this.form.value.hiddenLayers)
+        Number(this.form.value.hiddenLayers),
       )
 
       console.log(this.red)
