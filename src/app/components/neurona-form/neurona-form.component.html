@@ -19,27 +19,6 @@
 
 <section>
   <mat-divider class="form__divider"></mat-divider>
-  <h3>Parametros de entrenamiento</h3>
-  <form [formGroup]="form" class="form">
-    <mat-form-field>
-      <mat-label>N° iteraciones</mat-label>
-      <input matInput type="number" formControlName="maxIterations"/>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Rata de aprendizaje</mat-label>
-      <input matInput type="number" [max]="1" [min]="0" formControlName="trainingRate"/>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Error maximo</mat-label>
-      <input matInput type="number" [max]="1" [min]="0" formControlName="maxError"/>
-    </mat-form-field>
-  </form>
-</section>
-
-<section>
-  <mat-divider class="form__divider"></mat-divider>
   <h2>Configuración de la red</h2>
   <form [formGroup]="form" class="form">
     <mat-form-field>
@@ -77,6 +56,37 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Función de activacion</mat-label>
+      <mat-select formControlName="triggerFunction">
+        <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa'" [value]="'Escalon'">
+          Escalón
+        </mat-option>
+        <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'Sigmoide'">
+          Sigmoide
+        </mat-option>
+        <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'TagenteH'">
+          Tagente H
+        </mat-option>
+        <mat-option *ngIf="form.value.subType === 'Adaline'" [value]="'Lineal'">
+          Lineal
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Algoritmo entrenamiento:</mat-label>
+      <mat-select formControlName="trainingAlgorithm">
+        <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa' || form.value.subType =='Adaline'"
+                    [value]="'Regla delta'">
+          Regla delta
+        </mat-option>
+        <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'PropagacionInversa'">
+          Propagacion inversa
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <button mat-raised-button (click)="initNeuron()" *ngIf="form.value.type === 'Unicapa'">Iniciar neurona</button>
   </form>
 
@@ -95,41 +105,6 @@
       </p>
     </mat-card>
     <mat-divider class="form__divider"></mat-divider>
-
-    <h3>Función de activación</h3>
-    <form [formGroup]="form" class="form">
-      <mat-form-field>
-        <mat-label>Función de activacion</mat-label>
-        <mat-select formControlName="triggerFunction">
-          <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa'" [value]="'Escalon'">
-            Escalón
-          </mat-option>
-          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'Sigmoide'">
-            Sigmoide
-          </mat-option>
-          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'TagenteH'">
-            Tagente H
-          </mat-option>
-          <mat-option *ngIf="form.value.subType === 'Adaline'" [value]="'Lineal'">
-            Lineal
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-    <h2>Algoritmo de entrenamiento</h2>
-    <form [formGroup]="form" class="form">
-      <mat-form-field>
-        <mat-label>Algoritmo entrenamiento:</mat-label>
-        <mat-select formControlName="trainingAlgorithm">
-          <mat-option *ngIf="form.value.subType === 'PerceptronUnicapa' || form.value.subType =='Adaline'" [value]="'Regla delta'">
-            Regla delta
-          </mat-option>
-          <mat-option *ngIf="form.value.subType === 'BackUnicapa'" [value]="'PropagacionInversa'">
-            Propagacion inversa
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
   </ng-container>
   <!--MC-->
   <ng-container *ngIf="form.value.type === 'Multicapa'">
@@ -243,7 +218,29 @@
 
 
   <ng-container *ngIf="layer !== undefined || red !== undefined">
-      <button mat-raised-button color="primary" (click)="saveNeuron()">Descargar pesos y umbrales</button>
+    <button mat-raised-button color="primary" (click)="saveNeuron()">Descargar pesos y umbrales</button>
   </ng-container>
+
+  <section *ngIf="layer !== undefined || red !== undefined">
+    <mat-divider class="form__divider"></mat-divider>
+    <h3>Parametros de entrenamiento</h3>
+    <form [formGroup]="form" class="form">
+      <mat-form-field>
+        <mat-label>N° iteraciones</mat-label>
+        <input matInput type="number" formControlName="maxIterations"/>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Rata de aprendizaje</mat-label>
+        <input matInput type="number" [max]="1" [min]="0" formControlName="trainingRate"/>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Error maximo</mat-label>
+        <input matInput type="number" [max]="1" [min]="0" formControlName="maxError"/>
+      </mat-form-field>
+    </form>
+  </section>
+
 </section>
 
