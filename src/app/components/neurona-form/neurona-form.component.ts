@@ -23,14 +23,14 @@ export class NeuronaFormComponent implements OnInit {
     this.form = this.builder.group({
       inputs: [null, Validators.required],
       type: [''],
-      subType:[''],
+      subType: [''],
       triggerFunction: [''],
-      trainingAlgorithm:[''],
+      trainingAlgorithm: [''],
       hiddenLayers: [0],
       layers: [[]],
-      maxIterations:[1, [Validators.required]],
-      trainingRate:[0, [Validators.required, Validators.min(0), Validators.max(1)]],
-      maxError:[0, [Validators.required, Validators.min(0),Validators.max(1)]]
+      maxIterations: [1, [Validators.required]],
+      trainingRate: [0, [Validators.required, Validators.min(0), Validators.max(1)]],
+      maxError: [0, [Validators.required, Validators.min(0), Validators.max(1)]]
     })
 
     this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
@@ -112,4 +112,16 @@ export class NeuronaFormComponent implements OnInit {
     link.click()
   }
 
+  train() {
+    if (this.form.value.type == "Unicapa") {
+      if (this.layer != undefined) {
+        this.layer.fit(
+          this.neuronInput.inputs,
+          this.neuronInput.outputs,
+          +this.form.value.maxIterations,
+          +this.form.value.trainingRate,
+          +this.form.value.maxError)
+      }
+    }
+  }
 }

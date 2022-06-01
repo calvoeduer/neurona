@@ -77,6 +77,22 @@ export class Layer {
 
     return result
   }
+
+  fit(inputs: number[][], outputs: number[][], maxSteps: number, trainingRate: number, errorTolerance: number) {
+    for (let i = 0; i < maxSteps; i++) {
+
+      let evalOutput: number[] = []
+      for (let j = 0; j < inputs.length; j++) {
+        evalOutput = this.eval(inputs[j])
+        const output = outputs[j]
+
+        const errors = output.map((value, index) => evalOutput[index] - value)
+
+        console.log("Errors: ", errors)
+      }
+
+    }
+  }
 }
 
 export class Red {

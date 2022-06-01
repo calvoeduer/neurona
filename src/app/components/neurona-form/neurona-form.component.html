@@ -197,22 +197,6 @@
     <button mat-raised-button (click)="initMulticapa()">Iniciar</button>
 
     <mat-divider class="form__divider"></mat-divider>
-    <!--
-        <mat-card>
-      <mat-card-title>Pesos y umbrales</mat-card-title>
-      <div *ngFor="let clayer of red?.layers; index as i">
-        <span>Capa {{i + 1}}</span>
-        <div></div>
-        <span *ngFor="let neuron of clayer?.neurons; index as id">
-        Pesos neurona {{id + 1}}:
-        <mat-chip-list>
-        <mat-chip color="primary" *ngFor="let weight of neuron.weights">{{weight | number}}</mat-chip>
-          <mat-chip color="warn">Umbral neurona {{id + 1}}: {{neuron.sill | number}}</mat-chip>
-      </mat-chip-list>
-      </span>
-      </div>
-    </mat-card>
-    -->
 
   </ng-container>
 
@@ -239,8 +223,13 @@
         <mat-label>Error maximo</mat-label>
         <input matInput type="number" [max]="1" [min]="0" formControlName="maxError"/>
       </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="train()">Entrenar</button>
     </form>
   </section>
+
+  <mat-divider class="form__divider"></mat-divider>
+  <mat-divider class="form__divider"></mat-divider>
 
 </section>
 
