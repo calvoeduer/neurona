@@ -40,7 +40,7 @@ export class Neuron {
       acc += element * this.weights[index]
     }
 
-    acc -= this.sill
+    acc += this.sill
 
     switch (this.triggerFunction) {
       case TriggerFunction.Escalon:
@@ -49,6 +49,20 @@ export class Neuron {
     }
 
     return acc
+  }
+
+  updateWeights(linealError: number, inputs: number[], trainingRate: number) {
+    console.assert(inputs.length == this.inputs, "Número de entradas incorrecto.")
+
+    console.log('Old weights: ', this.weights)
+
+    for (let i = 0; i < this.weights.length; i++) {
+      this.weights[i] += linealError * inputs[i] * trainingRate;
+    }
+
+    console.log('New weights: ', this.weights)
+
+    this.sill += trainingRate * linealError
   }
 }
 
@@ -79,18 +93,47 @@ export class Layer {
   }
 
   fit(inputs: number[][], outputs: number[][], maxSteps: number, trainingRate: number, errorTolerance: number) {
+    const iterationErrors = []
+
     for (let i = 0; i < maxSteps; i++) {
 
       let evalOutput: number[] = []
+      let patternErrors: number[] = []
+
       for (let j = 0; j < inputs.length; j++) {
         evalOutput = this.eval(inputs[j])
         const output = outputs[j]
 
+        console.log("Output: ", evalOutput, " Real output: ", output)
+
         const errors = output.map((value, index) => evalOutput[index] - value)
 
-        console.log("Errors: ", errors)
+        console.log('Lineal error: ', errors)
+
+        let patternError = 0;
+        for (let k = 0; k < errors.length; k++) {
+          patternError += Math.abs(errors[k]) / this.outputs
+        }
+        console.log("Pattern error: ", patternError)
+        patternErrors.push(patternError)
+
+        this.updateWeights(errors, inputs[j], trainingRate)
       }
 
+      const iterationError = patternErrors.reduce((prev, acc) => acc + prev) / patternErrors.length
+      patternErrors = []
+      iterationErrors.push(iterationError)
+
+      console.log('iterationError: ', iterationError)
+      if (iterationError <= errorTolerance) {
+        break
+      }
+    }
+  }
+
+  updateWeights(linealErrors: number[], inputs: number[], trainingRate: number) {
+    for (let i = 0; i < linealErrors.length; i++) {
+      this.neurons[i].updateWeights(linealErrors[i], inputs, trainingRate)
     }
   }
 }
