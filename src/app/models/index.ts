@@ -78,7 +78,7 @@ export class Layer {
   public outputs: number = 0
   public neurons: Neuron[] = []
 
-  public readonly onFinishIteration$: EventEmitter<IterationResult>
+  public onFinishIteration$: EventEmitter<IterationResult>
 
   constructor(inputs: number, outputs: number, triggerFunction: TriggerFunction) {
     this.inputs = inputs
@@ -88,6 +88,10 @@ export class Layer {
       this.neurons.push(new Neuron(inputs, triggerFunction))
     }
 
+    this.onFinishIteration$ = new EventEmitter<IterationResult>()
+  }
+
+  init() {
     this.onFinishIteration$ = new EventEmitter<IterationResult>()
   }
 

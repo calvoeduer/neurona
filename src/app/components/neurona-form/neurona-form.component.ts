@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Layer, LayerInput, NeuronInput, Red } from "../../models";
+import { IterationResult, Layer, LayerInput, Neuron, NeuronInput, Red } from "../../models";
 
 @Component({
   selector: 'app-neurona-form',
@@ -90,7 +90,16 @@ export class NeuronaFormComponent implements OnInit {
 
         console.log('Content neuron: ', content)
 
-        this.layer = JSON.parse(content)
+        const loadedLayer = JSON.parse(content) as Layer
+        console.log(loadedLayer)
+
+        this.layer = new Layer(loadedLayer.inputs, loadedLayer.outputs, loadedLayer.neurons[0].triggerFunction)
+        for (let i = 0; i < loadedLayer.neurons.length; i++) {
+          const neuronLoaded = loadedLayer.neurons[i]
+          const neuron = new Neuron(neuronLoaded.inputs, neuronLoaded.triggerFunction)
+          neuron.weights = neuronLoaded.weights
+          this.layer.neurons[i] = neuron
+        }
       }
     }
   }
