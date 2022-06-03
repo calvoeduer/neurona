@@ -1,3 +1,5 @@
+import { EventEmitter } from "@angular/core";
+
 export type NeuronInput = {
   inputs: number[][]
   outputs: number[][]
@@ -11,6 +13,11 @@ export type LayerInput = {
 enum TriggerFunction {
   Escalon = 'Escalon',
   Lineal = 'Lineal'
+}
+
+export type IterationResult = {
+  step: number
+  error: number
 }
 
 export class Neuron {
@@ -71,6 +78,8 @@ export class Layer {
   public outputs: number = 0
   public neurons: Neuron[] = []
 
+  public readonly onFinishIteration$: EventEmitter<IterationResult>
+
   constructor(inputs: number, outputs: number, triggerFunction: TriggerFunction) {
     this.inputs = inputs
     this.outputs = outputs
@@ -78,6 +87,8 @@ export class Layer {
     for (let i = 0; i < outputs; i++) {
       this.neurons.push(new Neuron(inputs, triggerFunction))
     }
+
+    this.onFinishIteration$ = new EventEmitter<IterationResult>()
   }
 
   eval(inputs: number[]) {
@@ -124,7 +135,11 @@ export class Layer {
       patternErrors = []
       iterationErrors.push(iterationError)
 
-      console.log('iterationError: ', iterationError)
+      this.onFinishIteration$.emit({
+        step: i,
+        error: iterationError
+      })
+
       if (iterationError <= errorTolerance) {
         break
       }

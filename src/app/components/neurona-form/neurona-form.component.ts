@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Layer, LayerInput, Neuron, NeuronInput, Red} from "../../models";
-import {min} from "rxjs";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Layer, LayerInput, Neuron, NeuronInput, Red } from "../../models";
+import { min } from "rxjs";
 
 @Component({
   selector: 'app-neurona-form',
@@ -18,6 +18,34 @@ export class NeuronaFormComponent implements OnInit {
   layer?: Layer
   red?: Red
   layerInputs: LayerInput[] = []
+  lastStep: number = 1
+
+  // Graph options
+  multi = [
+    {
+      "name": "ErroresIteraccion",
+      "series": [
+        {
+          "name": "0",
+          "value": 1
+        },
+      ]
+    }
+  ]
+
+  view: [number, number] = [700, 300]
+
+  // options
+  legend: boolean = false
+  showLabels: boolean = true
+  animations: boolean = true
+  xAxis: boolean = true
+  yAxis: boolean = true
+  showYAxisLabel: boolean = true
+  showXAxisLabel: boolean = true
+  xAxisLabel: string = 'Iteración'
+  yAxisLabel: string = 'Error'
+  timeline: boolean = true
 
   constructor(private builder: FormBuilder) {
     this.form = this.builder.group({
@@ -80,6 +108,18 @@ export class NeuronaFormComponent implements OnInit {
       )
 
       console.log(this.layer)
+
+      this.multi = [
+        {
+          "name": "ErroresIteraccion",
+          "series": [
+            {
+              "name": "0",
+              "value": 1
+            },
+          ]
+        }
+      ]
     }
   }
 
@@ -115,12 +155,29 @@ export class NeuronaFormComponent implements OnInit {
   train() {
     if (this.form.value.type == "Unicapa") {
       if (this.layer != undefined) {
+
+        const copy = this.multi;
+
+        const sub = this.layer.onFinishIteration$.subscribe(result => {
+          console.log('iterationError: ', result)
+
+          ++this.lastStep;
+          copy[0].series.push({
+            name: this.lastStep.toString(),
+            value: result.error
+          })
+        })
+
         this.layer.fit(
           this.neuronInput.inputs,
           this.neuronInput.outputs,
           +this.form.value.maxIterations,
           +this.form.value.trainingRate,
           +this.form.value.maxError)
+
+        this.multi = [...copy]
+        sub.unsubscribe()
+        console.log("series: ", this.multi[0].series)
       }
     }
   }

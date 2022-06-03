@@ -9,12 +9,12 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatInputModule } from '@angular/material/input';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
-import {MatSelectModule} from "@angular/material/select";
-import {MatTableModule} from "@angular/material/table";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatCardModule} from "@angular/material/card";
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatSelectModule } from "@angular/material/select";
+import { MatTableModule } from "@angular/material/table";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatCardModule } from "@angular/material/card";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -22,23 +22,24 @@ import {MatCardModule} from "@angular/material/card";
     AppComponent,
     NeuronaFormComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MaterialFileInputModule,
-        BrowserAnimationsModule,
-        MatSelectModule,
-        FormsModule,
-        MatTableModule,
-        MatChipsModule,
-        MatCardModule,
-
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MaterialFileInputModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    FormsModule,
+    MatTableModule,
+    MatChipsModule,
+    MatCardModule,
+    NgxChartsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
