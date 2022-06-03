@@ -29,6 +29,15 @@ export class NeuronaFormComponent implements OnInit {
           "value": 1
         },
       ]
+    },
+    {
+      "name": "MaxError",
+      "series": [
+        {
+          "name": "0",
+          "value": 0
+        },
+      ]
     }
   ]
 
@@ -135,6 +144,15 @@ export class NeuronaFormComponent implements OnInit {
               "value": 1
             },
           ]
+        },
+        {
+          "name": "MaxError",
+          "series": [
+            {
+              "name": "0",
+              "value": +this.form.value.maxError
+            },
+          ]
         }
       ]
     }
@@ -182,6 +200,10 @@ export class NeuronaFormComponent implements OnInit {
           copy[0].series.push({
             name: this.lastStep.toString(),
             value: result.error
+          })
+          copy[1].series.push({
+            name: this.lastStep.toString(),
+            value: +this.form.value.maxError
           })
         })
 
