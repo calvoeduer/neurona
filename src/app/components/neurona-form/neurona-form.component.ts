@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Layer, LayerInput, Neuron, NeuronInput, Red } from "../../models";
-import { min } from "rxjs";
+import { Layer, LayerInput, NeuronInput, Red } from "../../models";
 
 @Component({
   selector: 'app-neurona-form',
@@ -58,7 +57,8 @@ export class NeuronaFormComponent implements OnInit {
       layers: [[]],
       maxIterations: [1, [Validators.required]],
       trainingRate: [0, [Validators.required, Validators.min(0), Validators.max(1)]],
-      maxError: [0, [Validators.required, Validators.min(0), Validators.max(1)]]
+      maxError: [0, [Validators.required, Validators.min(0), Validators.max(1)]],
+      neuronInput: [null]
     })
 
     this.layerInputs.push({neuronsNum: 0, triggerFunction: ''})
@@ -67,6 +67,23 @@ export class NeuronaFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  loadUnicapa() {
+    if (this.form.value.neuronInput.files[0]) {
+      let fileReader = new FileReader()
+
+      const neuronFile = this.form.value.neuronInput.files[0]
+      fileReader.readAsText(neuronFile)
+
+      fileReader.onload = e => {
+        const content = fileReader.result as string
+
+        console.log('Content neuron: ', content)
+
+        this.layer = JSON.parse(content)
+      }
+    }
   }
 
   onSubmit() {

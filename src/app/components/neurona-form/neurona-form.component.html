@@ -88,6 +88,15 @@
     </mat-form-field>
 
     <button mat-raised-button (click)="initNeuron()" *ngIf="form.value.type === 'Unicapa'">Iniciar neurona</button>
+
+    <form [formGroup]="form" class="form" *ngIf="form.value.type === 'Unicapa'">
+      <mat-form-field>
+        <mat-label>Neurona</mat-label>
+        <ngx-mat-file-input accept=".json" formControlName="neuronInput"></ngx-mat-file-input>
+      </mat-form-field>
+
+      <button mat-raised-button (click)="loadUnicapa()">Cargar unicapa</button>
+    </form>
   </form>
 
   <mat-divider class="form__divider"></mat-divider>
