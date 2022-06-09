@@ -63,7 +63,7 @@ export class Neuron {
   updateWeights(linealError: number, inputs: number[], trainingRate: number) {
     console.assert(inputs.length == this.inputs, 'Número de entradas incorrecto.')
 
-    console.log('Old weights: ', this.weights)
+    console.log('Old weights: ', this.weights, ' with lineal error: ', linealError, 'inputs: ', inputs, 'trainingRate: ', trainingRate)
 
     for (let i = 0; i < this.weights.length; i++) {
 
@@ -148,8 +148,13 @@ export class Layer {
       })
 
       if (iterationError <= errorTolerance) {
+        alert('Aprendizaje finalizado con éxtio.')
         break
       }
+    }
+
+    if (iterationErrors[iterationErrors.length - 1] > errorTolerance) {
+      alert('Aprendizaje finalizado sin éxtio.')
     }
   }
 
