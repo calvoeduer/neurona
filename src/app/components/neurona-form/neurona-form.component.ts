@@ -93,11 +93,12 @@ export class NeuronaFormComponent implements OnInit {
         const loadedLayer = JSON.parse(content) as Layer
         console.log(loadedLayer)
 
-        this.layer = new Layer(loadedLayer.inputs, loadedLayer.outputs, loadedLayer.neurons[0].triggerFunction)
+        this.layer = new Layer(loadedLayer.inputs, loadedLayer.outputs,loadedLayer.neurons[0].triggerFunction)
         for (let i = 0; i < loadedLayer.neurons.length; i++) {
           const neuronLoaded = loadedLayer.neurons[i]
           const neuron = new Neuron(neuronLoaded.inputs, neuronLoaded.triggerFunction)
           neuron.weights = neuronLoaded.weights
+          neuron.sill = neuronLoaded.sill
           this.layer.neurons[i] = neuron
         }
       }

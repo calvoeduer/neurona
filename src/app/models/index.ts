@@ -47,7 +47,7 @@ export class Neuron {
       acc += element * this.weights[index]
     }
 
-    acc += this.sill
+    acc -= this.sill
 
     switch (this.triggerFunction) {
       case TriggerFunction.Escalon:
@@ -64,7 +64,9 @@ export class Neuron {
     console.log('Old weights: ', this.weights)
 
     for (let i = 0; i < this.weights.length; i++) {
+
       this.weights[i] += linealError * inputs[i] * trainingRate;
+      console.log('pesos dentro del for: ', this.weights)
     }
 
     console.log('New weights: ', this.weights)
