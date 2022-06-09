@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { IterationResult, Layer, LayerInput, Neuron, NeuronInput, Red } from "../../models";
+import { Component, EventEmitter, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { IterationResult, Layer, LayerInput, Neuron, NeuronInput, Red } from '../../models'
 
 @Component({
   selector: 'app-neurona-form',
@@ -22,20 +22,20 @@ export class NeuronaFormComponent implements OnInit {
   // Graph options
   multi = [
     {
-      "name": "ErroresIteraccion",
-      "series": [
+      'name': 'ErroresIteraccion',
+      'series': [
         {
-          "name": "0",
-          "value": 1
+          'name': '0',
+          'value': 1
         },
       ]
     },
     {
-      "name": "MaxError",
-      "series": [
+      'name': 'MaxError',
+      'series': [
         {
-          "name": "0",
-          "value": 0
+          'name': '0',
+          'value': 0
         },
       ]
     }
@@ -93,7 +93,7 @@ export class NeuronaFormComponent implements OnInit {
         const loadedLayer = JSON.parse(content) as Layer
         console.log(loadedLayer)
 
-        this.layer = new Layer(loadedLayer.inputs, loadedLayer.outputs,loadedLayer.neurons[0].triggerFunction)
+        this.layer = new Layer(loadedLayer.inputs, loadedLayer.outputs, loadedLayer.neurons[0].triggerFunction)
         for (let i = 0; i < loadedLayer.neurons.length; i++) {
           const neuronLoaded = loadedLayer.neurons[i]
           const neuron = new Neuron(neuronLoaded.inputs, neuronLoaded.triggerFunction)
@@ -110,7 +110,7 @@ export class NeuronaFormComponent implements OnInit {
       this.neuronInput.inputs = []
       this.neuronInput.outputs = []
 
-      let inputs = this.form.value.inputs.files[0];
+      let inputs = this.form.value.inputs.files[0]
       let fileReader = new FileReader()
 
       fileReader.readAsText(inputs)
@@ -118,7 +118,7 @@ export class NeuronaFormComponent implements OnInit {
       fileReader.onload = e => {
         const content = fileReader.result as string
 
-        let rows = content.split("\r\n")
+        let rows = content.split('\r\n')
 
         for (let i = 0; i < rows.length; i++) {
           const row = rows[i].toString().split(';')
@@ -136,7 +136,7 @@ export class NeuronaFormComponent implements OnInit {
   }
 
   initNeuron() {
-    if (this.form.value.type == "Unicapa") {
+    if (this.form.value.type == 'Unicapa') {
       this.layer = new Layer(
         this.neuronInput.inputs[0].length,
         this.neuronInput.outputs[0].length,
@@ -147,29 +147,31 @@ export class NeuronaFormComponent implements OnInit {
 
       this.multi = [
         {
-          "name": "ErroresIteraccion",
-          "series": [
+          'name': 'ErroresIteraccion',
+          'series': [
             {
-              "name": "0",
-              "value": 1
+              'name': '0',
+              'value': 1
             },
           ]
         },
         {
-          "name": "MaxError",
-          "series": [
+          'name': 'MaxError',
+          'series': [
             {
-              "name": "0",
-              "value": +this.form.value.maxError
+              'name': '0',
+              'value': +this.form.value.maxError
             },
           ]
         }
       ]
+
+      this.lastStep = 0
     }
   }
 
   initMulticapa() {
-    if (this.form.value.type == "Multicapa") {
+    if (this.form.value.type == 'Multicapa') {
       this.red = new Red(
         this.neuronInput.inputs[0].length,
         this.neuronInput.outputs[0].length,
@@ -183,30 +185,30 @@ export class NeuronaFormComponent implements OnInit {
 
   saveNeuron() {
     let data = ''
-    if (this.form.value.type == "Unicapa") {
+    if (this.form.value.type == 'Unicapa') {
       data = JSON.stringify(this.layer)
     } else {
       data = JSON.stringify(this.red)
     }
 
-    const uri = 'data:application/json;charset=UTF-8,' + encodeURIComponent(data);
+    const uri = 'data:application/json;charset=UTF-8,' + encodeURIComponent(data)
     const link = document.createElement('a')
     link.href = uri
-    link.download = "neurona.json"
+    link.download = 'neurona.json'
 
     link.click()
   }
 
   train() {
-    if (this.form.value.type == "Unicapa") {
+    if (this.form.value.type == 'Unicapa') {
       if (this.layer != undefined) {
 
-        const copy = this.multi;
+        const copy = this.multi
 
         const sub = this.layer.onFinishIteration$.subscribe(result => {
           console.log('iterationError: ', result)
 
-          ++this.lastStep;
+          ++this.lastStep
           copy[0].series.push({
             name: this.lastStep.toString(),
             value: result.error
@@ -226,7 +228,7 @@ export class NeuronaFormComponent implements OnInit {
 
         this.multi = [...copy]
         sub.unsubscribe()
-        console.log("series: ", this.multi[0].series)
+        console.log('series: ', this.multi[0].series)
       }
     }
   }
