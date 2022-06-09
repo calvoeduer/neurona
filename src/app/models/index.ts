@@ -47,7 +47,9 @@ export class Neuron {
       acc += element * this.weights[index]
     }
 
+    console.log('Acc: ', acc)
     acc -= this.sill
+    console.log('Acc - Sill: ', acc)
 
     switch (this.triggerFunction) {
       case TriggerFunction.Escalon:
@@ -122,7 +124,7 @@ export class Layer {
 
         console.log('Output: ', evalOutput, ' Real output: ', output)
 
-        const errors = output.map((value, index) => evalOutput[index] - value)
+        const errors = output.map((value, index) => value - evalOutput[index])
 
         console.log('Lineal error: ', errors)
 
