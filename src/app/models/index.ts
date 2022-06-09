@@ -1,4 +1,4 @@
-import { EventEmitter } from "@angular/core";
+import { EventEmitter } from '@angular/core'
 
 export type NeuronInput = {
   inputs: number[][]
@@ -39,11 +39,11 @@ export class Neuron {
   }
 
   eval(inputs: number[]) {
-    console.assert(inputs.length == this.inputs, "Número de entradas incorrecto.")
+    console.assert(inputs.length == this.inputs, 'Número de entradas incorrecto.')
 
     let acc = 0
     for (let index = 0; index < inputs.length; index++) {
-      const element = inputs[index];
+      const element = inputs[index]
       acc += element * this.weights[index]
     }
 
@@ -51,7 +51,7 @@ export class Neuron {
 
     switch (this.triggerFunction) {
       case TriggerFunction.Escalon:
-        acc = acc > 0 ? 1 : 0
+        acc = acc >= 0 ? 1 : 0
         break
     }
 
@@ -59,14 +59,13 @@ export class Neuron {
   }
 
   updateWeights(linealError: number, inputs: number[], trainingRate: number) {
-    console.assert(inputs.length == this.inputs, "Número de entradas incorrecto.")
+    console.assert(inputs.length == this.inputs, 'Número de entradas incorrecto.')
 
     console.log('Old weights: ', this.weights)
 
     for (let i = 0; i < this.weights.length; i++) {
 
-      this.weights[i] += linealError * inputs[i] * trainingRate;
-      console.log('pesos dentro del for: ', this.weights)
+      this.weights[i] += linealError * inputs[i] * trainingRate
     }
 
     console.log('New weights: ', this.weights)
@@ -98,7 +97,7 @@ export class Layer {
   }
 
   eval(inputs: number[]) {
-    console.assert(inputs.length == this.inputs, "Número de entradas incorrecto.")
+    console.assert(inputs.length == this.inputs, 'Número de entradas incorrecto.')
 
     const result = []
 
@@ -112,29 +111,29 @@ export class Layer {
   fit(inputs: number[][], outputs: number[][], maxSteps: number, trainingRate: number, errorTolerance: number) {
     const iterationErrors = []
 
-    for (let i = 0; i < maxSteps; i++) {
+    for (let step = 0; step < maxSteps; step++) {
 
       let evalOutput: number[] = []
       let patternErrors: number[] = []
 
-      for (let j = 0; j < inputs.length; j++) {
-        evalOutput = this.eval(inputs[j])
-        const output = outputs[j]
+      for (let currentInput = 0; currentInput < inputs.length; currentInput++) {
+        evalOutput = this.eval(inputs[currentInput])
+        const output = outputs[currentInput]
 
-        console.log("Output: ", evalOutput, " Real output: ", output)
+        console.log('Output: ', evalOutput, ' Real output: ', output)
 
         const errors = output.map((value, index) => evalOutput[index] - value)
 
         console.log('Lineal error: ', errors)
 
-        let patternError = 0;
+        let patternError = 0
         for (let k = 0; k < errors.length; k++) {
           patternError += Math.abs(errors[k]) / this.outputs
         }
-        console.log("Pattern error: ", patternError)
+        console.log('Pattern error: ', patternError)
         patternErrors.push(patternError)
 
-        this.updateWeights(errors, inputs[j], trainingRate)
+        this.updateWeights(errors, inputs[currentInput], trainingRate)
       }
 
       const iterationError = patternErrors.reduce((prev, acc) => acc + prev) / patternErrors.length
@@ -142,7 +141,7 @@ export class Layer {
       iterationErrors.push(iterationError)
 
       this.onFinishIteration$.emit({
-        step: i,
+        step: step,
         error: iterationError
       })
 
@@ -178,7 +177,7 @@ export class Red {
   }
 
   eval(inputs: number[]) {
-    console.assert(inputs.length == this.inputs, "Número de entradas incorrecto.")
+    console.assert(inputs.length == this.inputs, 'Número de entradas incorrecto.')
 
     let result = inputs
     for (const layer of this.layers) {
