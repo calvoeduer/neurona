@@ -19,6 +19,8 @@ export class NeuronaFormComponent implements OnInit {
   layerInputs: LayerInput[] = []
   lastStep: number = 1
 
+  neuronOutput: number = 0
+
   // Graph options
   multi = [
     {
@@ -41,7 +43,7 @@ export class NeuronaFormComponent implements OnInit {
     }
   ]
 
-  view: [number, number] = [700, 300]
+  view: [number, number] = [1000, 300]
 
   // options
   legend: boolean = false
@@ -58,6 +60,7 @@ export class NeuronaFormComponent implements OnInit {
   constructor(private builder: FormBuilder) {
     this.form = this.builder.group({
       inputs: [null, Validators.required],
+      simulationInputs: [null],
       type: [''],
       subType: [''],
       triggerFunction: [''],
@@ -131,6 +134,27 @@ export class NeuronaFormComponent implements OnInit {
         }
 
         console.log(this.neuronInput)
+      }
+    }
+  }
+
+  onSubmitSimulation() {
+    if (this.layer != undefined) {
+      let inputs = this.form.value.simulationInputs.files[0]
+      let fileReader = new FileReader()
+
+      fileReader.readAsText(inputs)
+
+      fileReader.onload = e => {
+        const content = fileReader.result as string
+
+        let rows = content.split('\r\n')
+
+        const inputs = rows[0].toString().split(',').map(Number)
+
+        this.neuronOutput = this.layer?.eval(inputs)[0] || 0
+
+        console.log('Salida de la red: ', this.neuronOutput)
       }
     }
   }

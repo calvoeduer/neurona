@@ -238,23 +238,46 @@
   </section>
 
   <mat-divider class="form__divider"></mat-divider>
-  <span class="form__divider"></span>
+</section>
 
-  <div *ngIf="layer !== undefined || red !== undefined">
-    <ngx-charts-line-chart
-      [view]="view"
-      [legend]="legend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]="true"
-      [yAxis]="true"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [timeline]="timeline"
-      [results]="multi"
-    >
-    </ngx-charts-line-chart>
-  </div>
+<div *ngIf="layer !== undefined || red !== undefined">
+  <ngx-charts-line-chart
+    [view]="view"
+    [legend]="legend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="true"
+    [yAxis]="true"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [timeline]="timeline"
+    [results]="multi"
+  >
+  </ngx-charts-line-chart>
+</div>
 
+<mat-divider class="form__divider"></mat-divider>
+
+<div class="form__divider"></div>
+
+<section *ngIf="layer !== undefined || red !== undefined">
+  <h3>Simulación</h3>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmitSimulation()" class="form">
+    <mat-form-field>
+      <mat-label>Patrones para simular</mat-label>
+      <ngx-mat-file-input accept=".csv" formControlName="simulationInputs"></ngx-mat-file-input>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">Cargar datos de simulación</button>
+  </form>
+
+  <div class="form__divider"></div>
+
+  <h2>Salida de la red: {{neuronOutput}}</h2>
+
+  <div class="form__divider"></div>
+  <div class="form__divider"></div>
+  <div class="form__divider"></div>
 </section>
 
